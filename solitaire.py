@@ -5,14 +5,14 @@ from ehforwarderbot import Middleware, Message, coordinator
 from ehforwarderbot.message import MsgType
 from ehforwarderbot.types import ModuleID, InstanceID
 
-class ID(Middleware):
+class MatrixLauMiddleware(Middleware):
     """
     Solitaire Middleware
     """
 
-    middleware_id: ModuleID = ModuleID("solitaire.ID")
+    middleware_id: ModuleID = ModuleID("solitaire.MatrixLauMiddleware")
     middleware_name: str = "Solitaire Middleware"
-    __version__: str = '1.0.0'
+    __version__: str = '1.1.0'
 
     def __init__(self, instance_id: Optional[InstanceID] = None):
         global last_solitaire
