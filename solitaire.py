@@ -46,7 +46,7 @@ class ID(Middleware):
                     if last_solitaire == '':
                         last_solitaire = message
                         return message
-                    elif last_solitaire.text in message.text:
+                    elif last_solitaire.text in message.text and last_solitaire.text != message.text:
                         global solitaire_process
                         if message.vendor_specific != '':
                             if message.vendor_specific.get('solitaire_process',0) == 1:
