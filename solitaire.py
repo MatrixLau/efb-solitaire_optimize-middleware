@@ -7,7 +7,7 @@ from ehforwarderbot.types import ModuleID, InstanceID
 
 class MatrixLauMiddleware(Middleware):
     """
-    Solitaire Middleware
+    EFB Middleware - Solitaire Middleware
     """
 
     middleware_id: ModuleID = ModuleID("solitaire.MatrixLauMiddleware")
@@ -16,7 +16,9 @@ class MatrixLauMiddleware(Middleware):
 
     def __init__(self, instance_id: Optional[InstanceID] = None):
         global last_solitaire
-        last_solitaire = ''
+        last_solitaire = {
+            "群名": "接龙信息",
+        }
 
         global solitaire
         '''接龙关键词'''
@@ -43,22 +45,23 @@ class MatrixLauMiddleware(Middleware):
             global last_solitaire
             for key, value in solitaire.items():
                 if key in message.text:
-                    if last_solitaire == '':
-                        last_solitaire = message
+                    if last_solitaire.get(message.chat.name,'') == '':
+                        last_solitaire[message.chat.name] = message
                         return message
-                    elif last_solitaire.text in message.text and last_solitaire.text != message.text:
+                    elif last_solitaire.get(message.chat.name).text in message.text \
+                        and last_solitaire.get(message.chat.name).text != message.text:
                         global solitaire_process
-                        if message.vendor_specific != '':
-                            if message.vendor_specific.get('solitaire_process',0) == 1:
-                                return message
+                        if message.vendor_specific == '' \
+                            or message.vendor_specific.get('solitaire_process',0) == 1:
+                            return message
                         flag = False
-                        last_solitaire.text = message.text
-                        edited = last_solitaire
+                        last_solitaire[message.chat.name].text = message.text
+                        edited = last_solitaire[message.chat.name]
                         edited.edit = True
                         edited.vendor_specific['solitaire_process'] = 1
                         coordinator.send_message(edited)
                     else:
-                        last_solitaire = message
+                        last_solitaire[message.chat.name] = message
                         return message
         if flag:
             return message
