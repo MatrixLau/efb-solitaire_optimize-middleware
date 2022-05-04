@@ -14,4 +14,4 @@ middlewares:
   - solitaire.ID
 ```
 
-3、在`solitaire.py`中`solitaire`字典中添加接龙关键词（因为不同语音登录的Wechat提示的信息都不一样，目前加了简中跟繁中的）
+3、在`solitaire.py`中`solitaire`字典中添加接龙关键词（因为不同语言登录的Wechat提示的信息都不一样，目前加了简中跟繁中的）
