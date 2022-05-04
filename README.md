@@ -1,2 +1,17 @@
 # efb-solitaire_optimize-middleware
- A middleware work on EFB which optimize solitaire messages
+将群组信息里面的接龙信息简洁化
+
+目前只能一时间处理一个接龙，有需求的话后期会优化
+
+使用方法：
+
+1、把`solitaire.py`放入EFB目录下的`modules/`中
+
+2、在EFB目录下`profiles/default/config.yaml`文件中添加
+
+```
+middlewares:
+  - solitaire.ID
+```
+
+3、在`solitaire.py`中`solitaire`字典中添加接龙关键词（因为不同语言登录的Wechat提示的信息都不一样，目前加了简中跟繁中的）
