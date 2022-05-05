@@ -69,6 +69,8 @@ class MatrixLauMiddleware(Middleware):
             if message.text.startswith(solitaire_command):
                 name = message.text.replace(solitaire_command, '')
                 name = name.replace(' ', '')
+                if name == '':
+                    name = message.author.name
                 message.text = message.target.text
                 numlist = message.text.split('\n')
                 length = len(numlist)
