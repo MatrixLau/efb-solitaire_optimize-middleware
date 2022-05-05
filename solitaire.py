@@ -13,7 +13,7 @@ class MatrixLauMiddleware(Middleware):
 
     middleware_id: ModuleID = ModuleID("solitaire.MatrixLauMiddleware")
     middleware_name: str = "Solitaire Middleware"
-    __version__: str = '1.2.0'
+    __version__: str = '1.3.0'
 
     def __init__(self, instance_id: Optional[InstanceID] = None):
         global last_solitaire
@@ -69,12 +69,17 @@ class MatrixLauMiddleware(Middleware):
             if message.text.startswith(solitaire_command):
                 name = message.text.replace(solitaire_command, '')
                 name = name.replace(' ', '')
-                message.text = message.target.text
+                if message.target != None:
+                    message.text = message.target.text
+                elif last_solitaire.get(message.chat.name,'') != '':
+                    message.text = last_solitaire[message.chat.name].text
+                else:
+                    return None
                 numlist = message.text.split('\n')
                 length = len(numlist)
                 numlist = numlist[length-1].split('.')
                 message.text += '\n' + str(int(numlist[0])+1) + '. '+name
-                if not last_solitaire[message.chat.name]:
+                if last_solitaire.get(message.chat.name,'') == '':
                     last_solitaire[message.chat.name] = message.target
                 message.target = None
                 self.reflash_solitaire(message)
