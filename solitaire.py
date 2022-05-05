@@ -52,7 +52,8 @@ class MatrixLauMiddleware(Middleware):
                         and last_solitaire.get(message.chat.name).text != message.text:
                         global solitaire_process
                         if message.vendor_specific == '' \
-                            or message.vendor_specific.get('solitaire_process',0) == 1:
+                            or message.vendor_specific.get('solitaire_process',0) == 1\
+                            or self.sent_by_master(message):
                             return message
                         flag = False
                         last_solitaire[message.chat.name].text = message.text
