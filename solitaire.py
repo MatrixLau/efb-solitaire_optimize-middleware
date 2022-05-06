@@ -53,8 +53,8 @@ class MatrixLauMiddleware(Middleware):
                     if last_solitaire.get(message.chat.name,'') == '':
                         last_solitaire[message.chat.name] = message
                         return message
-                    # elif self.reduce_solitaire(last_solitaire[message.chat.name].text) in message.text \
-                    elif last_solitaire[message.chat.name].text in message.text \
+                    # elif last_solitaire[message.chat.name].text in message.text \
+                    elif self.reduce_solitaire(last_solitaire[message.chat.name].text) in message.text \
                         and last_solitaire.get(message.chat.name).text != message.text:
                         global solitaire_process
                         if message.vendor_specific == '' \
