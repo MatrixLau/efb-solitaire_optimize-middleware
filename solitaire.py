@@ -79,7 +79,11 @@ class MatrixLauMiddleware(Middleware):
                 length = len(numlist)
                 numlist = numlist[length-1].split('.')
                 message.text += '\n' + str(int(numlist[0])+1) + '. '+name
-                if last_solitaire.get(message.chat.name,'') == '':
+                if last_solitaire.get(message.chat.name,'') == '' and message.target != None:
+                    last_solitaire[message.chat.name] = message.target
+                else:
+                    return None
+                if last_solitaire[message.chat.name].text != message.target.text:
                     last_solitaire[message.chat.name] = message.target
                 message.target = None
                 self.reflash_solitaire(message)
