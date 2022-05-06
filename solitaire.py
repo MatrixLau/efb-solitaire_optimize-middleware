@@ -62,7 +62,7 @@ class MatrixLauMiddleware(Middleware):
                             or self.sent_by_master(message):
                             return message
                         flag = False
-                        message = self.process_samenum(message)
+                        # message = self.process_samenum(message)
                         self.reflash_solitaire(message)
                     else:
                         last_solitaire[message.chat.name] = message
