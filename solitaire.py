@@ -53,8 +53,8 @@ class MatrixLauMiddleware(Middleware):
                     if last_solitaire.get(message.chat.name,'') == '':
                         last_solitaire[message.chat.name] = message
                         return message
-                    # elif last_solitaire[message.chat.name].text in message.text \
-                    elif self.reduce_solitaire(last_solitaire[message.chat.name].text) in message.text \
+                    # elif self.reduce_solitaire(last_solitaire[message.chat.name].text) in message.text \
+                    elif last_solitaire[message.chat.name].text in message.text \
                         and last_solitaire.get(message.chat.name).text != message.text:
                         global solitaire_process
                         if message.vendor_specific == '' \
@@ -100,31 +100,31 @@ class MatrixLauMiddleware(Middleware):
         edited.vendor_specific['solitaire_process'] = 1
         coordinator.send_message(edited)
 
-    # def process_samenum(self, message:Message):
-    #     ori_message = message
-    #     global last_solitaire
-    #     if last_solitaire.get(message.chat.name, '') == '':
-    #         return ori_message
-    #     solitaire_reduce = re.findall('\d.*\.\s.*.\n', message.text)
-    #     last_solitaire_reduce = re.findall('\d.*\.\s.*.\n', last_solitaire[message.chat.name].text)
-    #     # if last_solitaire.get(message.chat.name+'_reduce','') == '':
-    #     #     last_solitaire[message.chat.name+'_reduce'] = solitaire_reduce
-    #     # elif last_solitaire[message.chat.name+'_reduce'] \
-    #     #     not in last_solitaire[message.chat.name].text:
-    #     #     last_solitaire[message.chat.name+'_reduce'] = solitaire_reduce
+    def process_samenum(self, message:Message):
+        ori_message = message
+        global last_solitaire
+        if last_solitaire.get(message.chat.name, '') == '':
+            return ori_message
+        solitaire_reduce = re.findall('\d.*\.\s.*.\n', message.text)
+        last_solitaire_reduce = re.findall('\d.*\.\s.*.\n', last_solitaire[message.chat.name].text)
+        # if last_solitaire.get(message.chat.name+'_reduce','') == '':
+        #     last_solitaire[message.chat.name+'_reduce'] = solitaire_reduce
+        # elif last_solitaire[message.chat.name+'_reduce'] \
+        #     not in last_solitaire[message.chat.name].text:
+        #     last_solitaire[message.chat.name+'_reduce'] = solitaire_reduce
 
-    #     if solitaire_reduce == last_solitaire_reduce \
-    #         or solitaire_reduce in last_solitaire_reduce:
-    #         process_list = message.text.split('\n')
-    #         samerow = process_list[len(process_list)-1]
-    #         rowlist = samerow.split('.')
+        if solitaire_reduce == last_solitaire_reduce \
+            or solitaire_reduce in last_solitaire_reduce:
+            process_list = message.text.split('\n')
+            samerow = process_list[len(process_list)-1]
+            rowlist = samerow.split('.')
 
-    #         rowlist[0] = str(int(len(last_solitaire_reduce)) + 2) +'.'
-    #         newrow = ''.join(rowlist)
-    #         message.text = last_solitaire[message.chat.name].text + '\n' + newrow
-    #     elif last_solitaire_reduce in solitaire_reduce:
-    #         return ori_message
-    #     return message
+            rowlist[0] = str(int(len(last_solitaire_reduce)) + 2) +'.'
+            newrow = ''.join(rowlist)
+            message.text = last_solitaire[message.chat.name].text + '\n' + newrow
+        elif last_solitaire_reduce in solitaire_reduce:
+            return ori_message
+        return message
 
     
     def reduce_solitaire(self, text):
