@@ -96,6 +96,11 @@ class MatrixLauMiddleware(Middleware):
         edited = last_solitaire[message.chat.name]
         edited.edit = True
         edited.vendor_specific['solitaire_process'] = 1
+        edited.author = edited.chat.make_system_member(
+            uid="solitaire.MatrixLauMiddleware",
+            name="solitaire",
+            middleware=self
+        )
         coordinator.send_message(edited)
 
     def process_samenum(self, message:Message):
